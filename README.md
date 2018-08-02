@@ -1,6 +1,6 @@
 # Amazon Gift Code On-Demand (AGCOD)
 
-This is a tool for working with the AGCOD service and can be used for easily created, cancelling
+This is a tool for working with the AGCOD service and can be used for easily creating, cancelling
 and checking the status of Amazon gift codes.
 
 
@@ -48,4 +48,17 @@ result = client.create_gift_card(request_id, amount, currency)
 
 # Cancel that gift code
 client.cancel_gift_card(request_id, result['gcId'])
+
+# Get account balance
+client.get_available_funds()
+
+# Example response
+# {
+#   'availableFunds': {
+#     'amount': 1250.00,
+#     'currencyCode': 'USD'
+#   },
+#   'status': 'SUCCESS',
+#   'timestamp': '20180802T155339Z'
+# }
 ```
