@@ -15,7 +15,7 @@ AWS_TERMINATION_STRING = "aws4_request"
 AWS_KEY_QUALIFER = 'AWS4'
 
 HOST = 'agcod-v2-gamma.amazon.com'
-BASE_URL = 'https://agcod-v2-gamma.amazon.com'
+BASE_URL = 'https://' + HOST
 
 DATE_FORMAT = '%Y%m%dT%H%M%SZ'
 DATE_TIMEZONE = 'UTC'
@@ -26,7 +26,7 @@ debug = False
 partner_id = None
 aws_key_id = None
 aws_secret_key = None
-aws_region_name = None
+aws_region_name = 'us-east-1'
 
 
 def _debug(title, data):
@@ -136,7 +136,7 @@ def _make_request(operation, payload):
     headers = {
         'accept': 'application/json',
         'content-type': 'application/json',
-        'host': 'agcod-v2-gamma.amazon.com',
+        'host': HOST,
         'x-amz-date': timestamp,
         'x-amz-target': target,
     }
@@ -152,6 +152,10 @@ def _make_request(operation, payload):
     _debug('RESULT', data)
 
     return data
+
+
+def get_available_funds():
+    return _make_request('GetAvailableFunds', {'partnerId': partner_id})
 
 
 def create_gift_card(request_id, amount, currency):
