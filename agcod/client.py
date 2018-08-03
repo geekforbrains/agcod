@@ -3,7 +3,6 @@ import hashlib
 import hmac
 import json
 from datetime import datetime
-from time import time
 
 import requests
 
@@ -14,14 +13,15 @@ AWS_SHA256_ALGORITHM = 'AWS4-HMAC-SHA256'
 AWS_TERMINATION_STRING = "aws4_request"
 AWS_KEY_QUALIFER = 'AWS4'
 
-HOST = 'agcod-v2-gamma.amazon.com'
-BASE_URL = 'https://' + HOST
+SANDBOX_HOST = 'agcod-v2-gamma.amazon.com'
+PRODUCTION_HOST = 'agcod-v2.amazon.com'
 
 DATE_FORMAT = '%Y%m%dT%H%M%SZ'
 DATE_TIMEZONE = 'UTC'
 
 
 # Configs
+sandbox = True
 debug = False
 partner_id = None
 aws_key_id = None
@@ -34,6 +34,10 @@ def _debug(title, data):
         print(title.center(50, '-'))
         print(data)
         print()
+
+
+def _host():
+    return SANDBOX_HOST if sandbox else PRODUCTION_HOST
 
 
 def _hash(value):
@@ -129,14 +133,14 @@ def _get_auth_header(operation, payload, headers):
 
 
 def _make_request(operation, payload):
-    url = BASE_URL + '/' + operation
+    url = 'https://' + _host() + '/' + operation
     timestamp = datetime.utcnow().strftime(DATE_FORMAT)
     target = 'com.amazonaws.agcod.AGCODService.' + operation
 
     headers = {
         'accept': 'application/json',
         'content-type': 'application/json',
-        'host': HOST,
+        'host': _host(),
         'x-amz-date': timestamp,
         'x-amz-target': target,
     }

@@ -14,11 +14,12 @@ and checking the status of Amazon gift codes.
 ```python
 from agcod import client
 
-client.debug = True
+client.sandbox = True  # default is True, False will use production URLs
+client.debug = False  # default is False
+client.aws_region_name = 'us-east-1'  # Default is us-east-1
 client.partner_id = '<Your Partner ID>'
 client.aws_key_id = '<Your AWS Key ID>'
 client.aws_secret_key = '<Your AWS Secret Key>'
-client.aws_region_name = '<Your AWS Region>'
 
 # Request ID must begin with Partner ID
 request_id = client.partner_id + 'EXAMPLE'
@@ -54,11 +55,11 @@ client.get_available_funds()
 
 # Example response
 # {
-#   'availableFunds': {
-#     'amount': 1250.00,
-#     'currencyCode': 'USD'
+#   "availableFunds": {
+#     "amount": 1250.00,
+#     "currencyCode": "USD"
 #   },
-#   'status': 'SUCCESS',
-#   'timestamp': '20180802T155339Z'
+#   "status": "SUCCESS",
+#   "timestamp": "20180802T155339Z"
 # }
 ```
